@@ -16,7 +16,7 @@ exports.each = function(arr, iterable, onStepDone, onDone){
         })
 
         var promiseAll = Promise.all(tasks).then(function(values){
-            return onStepDone(values)
+            return onStepDone(values, currentValue)
         })
         
         jobs.push(promiseAll)

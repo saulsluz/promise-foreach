@@ -21,10 +21,10 @@ promiseForeach.each(list,
     [function (thingsOnList) {
         return `${thingsOnList.firstName} ${thingsOnList.lastName}`
     }],
-    function (arrayOfResultOfTask) {
+    function (arrayOfResultOfTask, currentList) {
         return {
-            firstName: 'John',
-            lastName: 'Doe',
+            firstName: currentList.firstName,
+            lastName: currentList.lastName,
             fullName: arrayOfResultOfTask[0]
         }
     },
@@ -73,10 +73,10 @@ promiseForeach.each(list,
             })
         }) 
     }],
-    function (arrayOfResultOfTask) {
+    function (arrayOfResultOfTask, currentList) {
         return {
-            firstName: 'John',
-            lastName: 'Doe',
+            firstName: currentList.firstName,
+            lastName: currentList.lastName,
             fullName: arrayOfResultOfTask[0],
             photos: arrayOfResultOfTask[1]
         }
