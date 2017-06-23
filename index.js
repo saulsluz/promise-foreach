@@ -1,6 +1,5 @@
 
-exports.pEach = function(arr, iterable, onStepDone, onDone){
-
+exports.each = function(arr, iterable, onStepDone, onDone){
     var arr = arr || []
     var iterable = iterable || []
     var onStepDone = onStepDone || function(){}
@@ -8,16 +7,21 @@ exports.pEach = function(arr, iterable, onStepDone, onDone){
 
     var jobs = []
 
-    arr.forEach(function (current) {
-
-        iterable(current)
-
-        var promiseAll = Promise.all(iterable).then(function(values){
-            onStepDone(values)
+    arr.forEach(function (currentValue) {
+        
+        var tasks = iterable.map(function(currentFunction){
+            var cf = currentFunction(currentValue)
+            if (!cf instanceof Promise) cf = Promise.resolve(cf)
+            return cf
         })
+
+        var promiseAll = Promise.all(tasks).then(function(values){
+            return onStepDone(values)
+        })
+        
         jobs.push(promiseAll)
     })
-
+    
     Promise.all(jobs).catch(function(err){
             onDone(err, null)
         }).then(function (values) {

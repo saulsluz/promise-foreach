@@ -1,5 +1,5 @@
 {
-  "name": "promise-each",
+  "name": "promise-foreach",
   "version": "1.0.0",
   "description": "foreach based on promises",
   "main": "index.js",
