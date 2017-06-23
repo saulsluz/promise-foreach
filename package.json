@@ -1,6 +1,6 @@
 {
   "name": "promise-foreach",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "foreach based on promises",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,6 @@
     "async"
   ],
   "author": "Saul Luz <saul.luz@gmail.com>",
-  "license": "Apache License 2.0"
+  "license": "Apache License 2.0",
+  "repository": "https://github.com/saulsluz/promise-foreach"
 }
