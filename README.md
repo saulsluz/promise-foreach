@@ -6,7 +6,7 @@ This is a simple implementation of foreach based on promises
 
 ### Usage
 Simple case
-```
+```javascript
 var pf = require('promise-foreach')
 
 var list = [{
