@@ -1,0 +1,16 @@
+{
+  "name": "promise-each",
+  "version": "1.0.0",
+  "description": "foreach based on promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "promise",
+    "foreach",
+    "async"
+  ],
+  "author": "Saul Luz <saul.luz@gmail.com>",
+  "license": "Apache License 2.0"
+}
