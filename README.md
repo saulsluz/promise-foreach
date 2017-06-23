@@ -2,7 +2,7 @@
 This is a simple implementation of foreach based on promises
 
 ### Installation
-`$ npm install promise`
+`$ npm install promise-foreach`
 
 ### Usage
 Simple case
