@@ -11,7 +11,7 @@
     "foreach",
     "async"
   ],
-  "author": "Saul Luz <saul.luz@gmail.com>",
+  "author": "Saul Luz <saulsluz@gmail.com>",
   "license": "Apache License 2.0",
   "repository": "https://github.com/saulsluz/promise-foreach"
 }
