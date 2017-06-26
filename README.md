@@ -5,7 +5,7 @@ This is a simple implementation of foreach based on promises
 `$ npm install promise-foreach`
 
 ### Usage
-Simple case
+###### Simple case
 ```javascript
 var promiseForeach = require('promise-foreach')
 
@@ -37,7 +37,7 @@ promiseForeach.each(list,
     })
 ```
 
-Complex case
+###### Complex case
 ```javascript
 
 var https = require('https');
