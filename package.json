@@ -1,6 +1,6 @@
 {
   "name": "promise-foreach",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "foreach based on promises",
   "main": "index.js",
   "scripts": {
