@@ -80,7 +80,79 @@ promiseForeach.each(list,
             firstName: currentList.firstName,
             lastName: currentList.lastName,
             fullName: arrayOfResultOfTask[0],
-            photos: arrayOfResultOfTask[1]
+            photo: arrayOfResultOfTask[1]
+        }
+    },
+    function (err, newList) {
+        if (err) {
+            console.error(err)
+            return;
+        }
+        console.log('newList : ', newList)
+    })
+```
+
+###### Concurrency case
+```javascript
+
+var https = require('https');
+var promiseForeach = require('promise-foreach')
+
+var list = [{
+    firstName: 'John',
+    lastName: 'Doe',
+    photo_id: 1,
+    comment_id: 3
+}, {
+    firstName: 'Marie',
+    lastName: 'Doe',
+    photo_id: 2,
+    comment_id: 4
+}]
+
+promiseForeach.each(list,
+    [function (thingsOnList) {
+        return `${thingsOnList.firstName} ${thingsOnList.lastName}`
+    },
+    function (list){
+        return new Promise(function(resolve, reject){
+            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + list.photo_id, function(response){
+                var body = [];
+                response.on('data', function(chunk){
+                    body.push(chunk)
+                })
+                response.on('end', function(){
+                    resolve(JSON.parse(body.join('')))
+                })
+            })
+            request.on('error', function(err){
+                reject(err)
+            })
+        }) 
+    },
+    function (list){
+        return new Promise(function(resolve, reject){
+            var request = https.get('https://jsonplaceholder.typicode.com/comments/' + list.comment_id, function(response){
+                var body = [];
+                response.on('data', function(chunk){
+                    body.push(chunk)
+                })
+                response.on('end', function(){
+                    resolve(JSON.parse(body.join('')))
+                })
+            })
+            request.on('error', function(err){
+                reject(err)
+            })
+        }) 
+    }],
+    function (arrayOfResultOfTask, currentList) {
+        return {
+            firstName: currentList.firstName,
+            lastName: currentList.lastName,
+            fullName: arrayOfResultOfTask[0],
+            photo: arrayOfResultOfTask[1],
+            comment: arrayOfResultOfTask[2]
         }
     },
     function (err, newList) {
