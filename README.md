@@ -9,6 +9,7 @@ Works great in the browser with [browserify](http://github.com/substack/node-bro
 ### Usage
 ###### Simple case
 ```javascript
+
 var promiseForeach = require('promise-foreach')
 
 var list = [{
@@ -20,14 +21,14 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (node) {
-        return `${node.firstName} ${node.lastName}`
+    [function (person) {
+        return `${person.firstName} ${person.lastName}`
     }],
-    function (arrayResultOfTask, node) {
+    function (arrResult, person) {
         return {
-            firstName: node.firstName,
-            lastName: node.lastName,
-            fullName: arrayResultOfTask[0]
+            firstName: person.firstName,
+            lastName: person.lastName,
+            fullName: arrResult[0]
         }
     },
     function (err, newList) {
@@ -56,12 +57,12 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (node) {
-        return `${node.firstName} ${node.lastName}`
+    [function (person) {
+        return `${person.firstName} ${person.lastName}`
     },
-    function (list){
+    function (person){
         return new Promise(function(resolve, reject){
-            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + list.photo_id, function(response){
+            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + person.photo_id, function(response){
                 var body = [];
                 response.on('data', function(chunk){
                     body.push(chunk)
@@ -75,12 +76,12 @@ promiseForeach.each(list,
             })
         }) 
     }],
-    function (arrayResultOfTask, node) {
+    function (arrResult, person) {
         return {
-            firstName: node.firstName,
-            lastName: node.lastName,
-            fullName: arrayResultOfTask[0],
-            photo: arrayResultOfTask[1]
+            firstName: person.firstName,
+            lastName: person.lastName,
+            fullName: arrResult[0],
+            photo: arrResult[1]
         }
     },
     function (err, newList) {
@@ -111,12 +112,12 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (node) {
-        return `${node.firstName} ${node.lastName}`
+    [function (person) {
+        return `${person.firstName} ${person.lastName}`
     },
-    function (list){
+    function (person){
         return new Promise(function(resolve, reject){
-            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + list.photo_id, function(response){
+            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + person.photo_id, function(response){
                 var body = [];
                 response.on('data', function(chunk){
                     body.push(chunk)
@@ -130,9 +131,9 @@ promiseForeach.each(list,
             })
         }) 
     },
-    function (list){
+    function (person){
         return new Promise(function(resolve, reject){
-            var request = https.get('https://jsonplaceholder.typicode.com/comments/' + list.comment_id, function(response){
+            var request = https.get('https://jsonplaceholder.typicode.com/comments/' + person.comment_id, function(response){
                 var body = [];
                 response.on('data', function(chunk){
                     body.push(chunk)
@@ -146,13 +147,13 @@ promiseForeach.each(list,
             })
         }) 
     }],
-    function (arrayResultOfTask, node) {
+    function (arrResult, person) {
         return {
-            firstName: node.firstName,
-            lastName: node.lastName,
-            fullName: arrayResultOfTask[0],
-            photo: arrayResultOfTask[1],
-            comment: arrayResultOfTask[2]
+            firstName: person.firstName,
+            lastName: person.lastName,
+            fullName: arrResult[0],
+            photo: arrResult[1],
+            comment: arrResult[2]
         }
     },
     function (err, newList) {
@@ -168,6 +169,7 @@ promiseForeach.each(list,
 `$ browserify -r promise-foreach > modules.js`
 
 ```html
+
 <script src="modules.js"></script>
 
 <script>
@@ -186,12 +188,12 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (thingsOnList) {
-        return `${thingsOnList.firstName} ${thingsOnList.lastName}`
+    [function (person) {
+        return `${person.firstName} ${person.lastName}`
     },
-    function (list){
+    function (person){
         return new Promise(function(resolve, reject){
-            var request = new Request('https://jsonplaceholder.typicode.com/photos/' + list.photo_id,{
+            var request = new Request('https://jsonplaceholder.typicode.com/photos/' + person.photo_id,{
                 method: 'GET'
             })
             fetch(request).then(function(response){
@@ -202,12 +204,12 @@ promiseForeach.each(list,
             })
         })
     }],
-    function (arrayResultOfTask, node) {
+    function (arrResult, person) {
         return {
-            firstName: node.firstName,
-            lastName: node.lastName,
-            fullName: arrayResultOfTask[0],
-            photos: arrayResultOfTask[1]
+            firstName: person.firstName,
+            lastName: person.lastName,
+            fullName: arrResult[0],
+            photos: arrResult[1]
         }
     },
     function (err, newList) {
