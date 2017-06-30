@@ -20,14 +20,14 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (thingsOnList) {
-        return `${thingsOnList.firstName} ${thingsOnList.lastName}`
+    [function (node) {
+        return `${node.firstName} ${node.lastName}`
     }],
-    function (arrayOfResultOfTask, currentList) {
+    function (arrayResultOfTask, node) {
         return {
-            firstName: currentList.firstName,
-            lastName: currentList.lastName,
-            fullName: arrayOfResultOfTask[0]
+            firstName: node.firstName,
+            lastName: node.lastName,
+            fullName: arrayResultOfTask[0]
         }
     },
     function (err, newList) {
@@ -56,8 +56,8 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (thingsOnList) {
-        return `${thingsOnList.firstName} ${thingsOnList.lastName}`
+    [function (node) {
+        return `${node.firstName} ${node.lastName}`
     },
     function (list){
         return new Promise(function(resolve, reject){
@@ -75,12 +75,12 @@ promiseForeach.each(list,
             })
         }) 
     }],
-    function (arrayOfResultOfTask, currentList) {
+    function (arrayResultOfTask, node) {
         return {
-            firstName: currentList.firstName,
-            lastName: currentList.lastName,
-            fullName: arrayOfResultOfTask[0],
-            photo: arrayOfResultOfTask[1]
+            firstName: node.firstName,
+            lastName: node.lastName,
+            fullName: arrayResultOfTask[0],
+            photo: arrayResultOfTask[1]
         }
     },
     function (err, newList) {
@@ -111,8 +111,8 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (thingsOnList) {
-        return `${thingsOnList.firstName} ${thingsOnList.lastName}`
+    [function (node) {
+        return `${node.firstName} ${node.lastName}`
     },
     function (list){
         return new Promise(function(resolve, reject){
@@ -146,13 +146,13 @@ promiseForeach.each(list,
             })
         }) 
     }],
-    function (arrayOfResultOfTask, currentList) {
+    function (arrayResultOfTask, node) {
         return {
-            firstName: currentList.firstName,
-            lastName: currentList.lastName,
-            fullName: arrayOfResultOfTask[0],
-            photo: arrayOfResultOfTask[1],
-            comment: arrayOfResultOfTask[2]
+            firstName: node.firstName,
+            lastName: node.lastName,
+            fullName: arrayResultOfTask[0],
+            photo: arrayResultOfTask[1],
+            comment: arrayResultOfTask[2]
         }
     },
     function (err, newList) {
@@ -202,12 +202,12 @@ promiseForeach.each(list,
             })
         })
     }],
-    function (arrayOfResultOfTask, currentList) {
+    function (arrayResultOfTask, node) {
         return {
-            firstName: currentList.firstName,
-            lastName: currentList.lastName,
-            fullName: arrayOfResultOfTask[0],
-            photos: arrayOfResultOfTask[1]
+            firstName: node.firstName,
+            lastName: node.lastName,
+            fullName: arrayResultOfTask[0],
+            photos: arrayResultOfTask[1]
         }
     },
     function (err, newList) {
