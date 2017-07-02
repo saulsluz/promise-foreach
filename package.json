@@ -1,7 +1,7 @@
 {
   "name": "promise-foreach",
   "version": "1.0.11",
-  "description": "foreach based on promises",
+  "description": "This is a simple implementation of foreach based on promises.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
