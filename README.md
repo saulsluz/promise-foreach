@@ -21,9 +21,11 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (person) {
-        return `${person.firstName} ${person.lastName}`
-    }],
+    [
+        function (person){
+            return `${person.firstName} ${person.lastName}`
+        }
+    ],
     function (arrResult, person) {
         return {
             firstName: person.firstName,
@@ -42,7 +44,6 @@ promiseForeach.each(list,
 
 ###### Complex case
 ```javascript
-
 var https = require('https');
 var promiseForeach = require('promise-foreach')
 
@@ -57,25 +58,14 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (person) {
-        return `${person.firstName} ${person.lastName}`
-    },
-    function (person){
-        return new Promise(function(resolve, reject){
-            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + person.photo_id, function(response){
-                var body = [];
-                response.on('data', function(chunk){
-                    body.push(chunk)
-                })
-                response.on('end', function(){
-                    resolve(JSON.parse(body.join('')))
-                })
-            })
-            request.on('error', function(err){
-                reject(err)
-            })
-        }) 
-    }],
+    [
+        function (person){
+            return `${person.firstName} ${person.lastName}`
+        },
+        function (person){
+            return asyncGetPhoto(person.photo_id)
+        }
+    ],
     function (arrResult, person) {
         return {
             firstName: person.firstName,
@@ -91,11 +81,27 @@ promiseForeach.each(list,
         }
         console.log('newList : ', newList)
     })
+
+function asyncGetPhoto(photo_id){
+    return new Promise(function(resolve, reject){
+        var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function(response){
+            var body = [];
+            response.on('data', function(chunk){
+                body.push(chunk)
+            })
+            response.on('end', function(){
+                resolve(JSON.parse(body.join('')))
+            })
+        })
+        request.on('error', function(err){
+            reject(err)
+        })
+    }) 
+}
 ```
 
 ###### Concurrency case
 ```javascript
-
 var https = require('https');
 var promiseForeach = require('promise-foreach')
 
@@ -112,41 +118,17 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (person) {
-        return `${person.firstName} ${person.lastName}`
-    },
-    function (person){
-        return new Promise(function(resolve, reject){
-            var request = https.get('https://jsonplaceholder.typicode.com/photos/' + person.photo_id, function(response){
-                var body = [];
-                response.on('data', function(chunk){
-                    body.push(chunk)
-                })
-                response.on('end', function(){
-                    resolve(JSON.parse(body.join('')))
-                })
-            })
-            request.on('error', function(err){
-                reject(err)
-            })
-        }) 
-    },
-    function (person){
-        return new Promise(function(resolve, reject){
-            var request = https.get('https://jsonplaceholder.typicode.com/comments/' + person.comment_id, function(response){
-                var body = [];
-                response.on('data', function(chunk){
-                    body.push(chunk)
-                })
-                response.on('end', function(){
-                    resolve(JSON.parse(body.join('')))
-                })
-            })
-            request.on('error', function(err){
-                reject(err)
-            })
-        }) 
-    }],
+    [
+        function (person){
+            return `${person.firstName} ${person.lastName}`
+        },
+        function (person){
+            return asyncGetPhoto(person.photo_id)
+        },
+        function (person){
+            return asyncGetComment(person.comment_id)
+        }
+    ],
     function (arrResult, person) {
         return {
             firstName: person.firstName,
@@ -163,13 +145,45 @@ promiseForeach.each(list,
         }
         console.log('newList : ', newList)
     })
+
+function asyncGetPhoto(photo_id){
+    return new Promise(function(resolve, reject){
+        var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function(response){
+            var body = [];
+            response.on('data', function(chunk){
+                body.push(chunk)
+            })
+            response.on('end', function(){
+                resolve(JSON.parse(body.join('')))
+            })
+        })
+        request.on('error', function(err){
+            reject(err)
+        })
+    }) 
+}
+function asyncGetComment(comment_id){
+        return new Promise(function(resolve, reject){
+            var request = https.get('https://jsonplaceholder.typicode.com/comments/' + comment_id, function(response){
+                var body = [];
+                response.on('data', function(chunk){
+                    body.push(chunk)
+                })
+                response.on('end', function(){
+                    resolve(JSON.parse(body.join('')))
+                })
+            })
+            request.on('error', function(err){
+                reject(err)
+            })
+        }) 
+    }
 ```
 
 ###### Browser case
 `$ browserify -r promise-foreach > modules.js`
 
 ```html
-
 <script src="modules.js"></script>
 
 <script>
@@ -188,22 +202,14 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-    [function (person) {
-        return `${person.firstName} ${person.lastName}`
-    },
-    function (person){
-        return new Promise(function(resolve, reject){
-            var request = new Request('https://jsonplaceholder.typicode.com/photos/' + person.photo_id,{
-                method: 'GET'
-            })
-            fetch(request).then(function(response){
-                resolve(response.json())
-            })
-            .catch(function(error){
-                reject(error)
-            })
-        })
-    }],
+    [
+        function (person) {
+            return `${person.firstName} ${person.lastName}`
+        },
+        function (person) {
+            return asyncGetPhoto(person.photo_id)
+        }
+    ],
     function (arrResult, person) {
         return {
             firstName: person.firstName,
@@ -220,6 +226,19 @@ promiseForeach.each(list,
         console.log('newList : ', newList)
     })
 
+function asyncGetPhoto(photo_id){
+        return new Promise(function(resolve, reject){
+            var request = new Request('https://jsonplaceholder.typicode.com/photos/' + photo_id,{
+                method: 'GET'
+            })
+            fetch(request).then(function(response){
+                resolve(response.json())
+            })
+            .catch(function(error){
+                reject(error)
+            })
+        })
+    }
 </script>
 ```
 
