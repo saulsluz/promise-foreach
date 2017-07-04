@@ -12,6 +12,6 @@
     "async"
   ],
   "author": "Saul Luz <saulsluz@gmail.com>",
-  "license": "Apache License 2.0",
+  "license": "MIT",
   "repository": "https://github.com/saulsluz/promise-foreach"
 }
