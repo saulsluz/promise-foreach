@@ -1,7 +1,7 @@
 {
   "name": "promise-foreach",
   "version": "1.0.12",
-  "description": "foreach based on promises",
+  "description": "This is a simple implementation of foreach based on promises.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +12,6 @@
     "async"
   ],
   "author": "Saul Luz <saulsluz@gmail.com>",
-  "license": "Apache License 2.0",
+  "license": "MIT",
   "repository": "https://github.com/saulsluz/promise-foreach"
 }
