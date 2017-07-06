@@ -242,5 +242,13 @@ function asyncGetPhoto(photo_id){
 </script>
 ```
 
+### Tests
+
+To run the package's test, first install the dependencies, then run `npm test`:
+
+`$ npm install`
+`$ npm test`
+
 ### License
+
 MIT License
