@@ -5,6 +5,10 @@ exports.each = function (arr, iterable, onStepDone, onDone) {
     var onStepDone = onStepDone || function () { }
     var onDone = onDone || function () { }
 
+    if (typeof iterable == 'function'){
+        iterable = [iterable]
+    }
+
     var jobs = []
 
     arr.forEach(function (currentValue) {
