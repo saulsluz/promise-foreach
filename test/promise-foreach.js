@@ -231,7 +231,7 @@ describe('#each()', function () {
       }
     });
 
-    it('should return a list with photo property populated', function () {
+    it('should return a list with photo and comment property populated', function () {
 
       var expectedResult = [{
         firstName: 'John',
