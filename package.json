@@ -2,7 +2,7 @@
   "name": "promise-foreach",
   "version": "1.0.14",
   "description": "This is a simple implementation of foreach based on promises.",
-  "main": "index.js",
+  "main": "promise-foreach.js",
   "scripts": {
     "test": "mocha"
   },
