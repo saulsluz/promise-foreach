@@ -1,6 +1,6 @@
 {
   "name": "promise-foreach",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "This is a simple implementation of foreach based on promises.",
   "main": "promise-foreach.js",
   "scripts": {
