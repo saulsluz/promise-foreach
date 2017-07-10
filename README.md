@@ -246,9 +246,10 @@ function asyncGetPhoto(photo_id){
 
 To run the package's test, first install the dependencies, then run `npm test`:
 
-`$ npm install`
-
-`$ npm test`
+```
+$ npm install
+$ npm test
+```
 
 ### License
 
