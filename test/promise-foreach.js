@@ -203,9 +203,9 @@ describe('#each()', function () {
               body.push(chunk)
             })
             response.on('end', function () {
-              setTimeout(function(){
+              setTimeout(function () {
                 resolve(JSON.parse(body.join('')))
-              },1000)
+              }, 1000)
             })
           })
           request.on('error', function (err) {
