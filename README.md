@@ -21,11 +21,9 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-  [
-    function (person){
-      return `${person.firstName} ${person.lastName}`
-    }
-  ],
+  function (person){
+    return `${person.firstName} ${person.lastName}`
+  },
   function (arrResult, person) {
     return {
       firstName: person.firstName,
