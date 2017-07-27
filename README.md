@@ -1,4 +1,4 @@
-# promise-each
+# promise-foreach
 This is a simple implementation of foreach based on promises.
 
 Works great in the browser with [browserify](http://github.com/substack/node-browserify).
