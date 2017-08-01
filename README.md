@@ -9,10 +9,7 @@ Works great in the browser with [browserify](http://github.com/substack/node-bro
 ### Usage
 ###### Simple case
 ```javascript
-
-var promiseForeach = require('promise-foreach')
-
-var list = [{
+const list = [{
   firstName: 'John',
   lastName: 'Doe'
 }, {
@@ -21,31 +18,31 @@ var list = [{
 }]
 
 promiseForeach.each(list,
-  function (person){
+  person => {
     return `${person.firstName} ${person.lastName}`
   },
-  function (arrResult, person) {
+  (arrResult, person) => {
     return {
       firstName: person.firstName,
       lastName: person.lastName,
       fullName: arrResult[0]
     }
   },
-  function (err, newList) {
+  (err, newList) => {
     if (err) {
       console.error(err)
-      return;
+      return ;
     }
     console.log('newList : ', newList)
-    })
+  })
 ```
 
 ###### Complex case
 ```javascript
-var https = require('https');
-var promiseForeach = require('promise-foreach')
+const https = require('https');
+const promiseForeach = require('promise-foreach')
 
-var list = [{
+const list = [{
   firstName: 'John',
   lastName: 'Doe',
   photo_id: 1
@@ -57,14 +54,14 @@ var list = [{
 
 promiseForeach.each(list,
   [
-    function (person){
+    person => {
       return `${person.firstName} ${person.lastName}`
     },
-    function (person){
+    person => {
       return asyncGetPhoto(person.photo_id)
     }
   ],
-  function (arrResult, person) {
+  (arrResult, person) => {
     return {
       firstName: person.firstName,
       lastName: person.lastName,
@@ -72,38 +69,38 @@ promiseForeach.each(list,
       photo: arrResult[1]
     }
   },
-  function (err, newList) {
+  (err, newList) => {
     if (err) {
       console.error(err)
-      return;
+      return ;
     }
     console.log('newList : ', newList)
   })
 
-function asyncGetPhoto(photo_id){
-  return new Promise(function(resolve, reject){
-    var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function(response){
-      var body = [];
-      response.on('data', function(chunk){
+function asyncGetPhoto(photo_id) {
+  return new Promise(function (resolve, reject) {
+    var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function (response) {
+      var body = []
+      response.on('data', function (chunk) {
         body.push(chunk)
       })
-      response.on('end', function(){
+      response.on('end', function () {
         resolve(JSON.parse(body.join('')))
       })
     })
-    request.on('error', function(err){
+    request.on('error', function (err) {
       reject(err)
     })
-  }) 
+  })
 }
 ```
 
 ###### Concurrency case
 ```javascript
-var https = require('https');
-var promiseForeach = require('promise-foreach')
+const https = require('https');
+const promiseForeach = require('promise-foreach')
 
-var list = [{
+const list = [{
   firstName: 'John',
   lastName: 'Doe',
   photo_id: 1,
@@ -117,17 +114,17 @@ var list = [{
 
 promiseForeach.each(list,
   [
-    function (person){
+    person => {
       return `${person.firstName} ${person.lastName}`
     },
-    function (person){
+    person => {
       return asyncGetPhoto(person.photo_id)
     },
-    function (person){
+    person => {
       return asyncGetComment(person.comment_id)
     }
   ],
-  function (arrResult, person) {
+  (arrResult, person) => {
     return {
       firstName: person.firstName,
       lastName: person.lastName,
@@ -136,46 +133,48 @@ promiseForeach.each(list,
       comment: arrResult[2]
     }
   },
-  function (err, newList) {
+  (err, newList) => {
     if (err) {
       console.error(err)
-      return;
+      return ;
     }
     console.log('newList : ', newList)
   })
 
-function asyncGetPhoto(photo_id){
-  return new Promise(function(resolve, reject){
-    var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function(response){
-      var body = [];
-      response.on('data', function(chunk){
+function asyncGetPhoto(photo_id) {
+  return new Promise(function (resolve, reject) {
+    var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function (response) {
+      var body = []
+      response.on('data', function (chunk) {
         body.push(chunk)
       })
-      response.on('end', function(){
+      response.on('end', function () {
+        setTimeout(function () {
+          resolve(JSON.parse(body.join('')))
+        }, 1000)
+      })
+    })
+    request.on('error', function (err) {
+      reject(err)
+    })
+  })
+}
+function asyncGetComment(comment_id) {
+  return new Promise(function (resolve, reject) {
+    var request = https.get('https://jsonplaceholder.typicode.com/comments/' + comment_id, function (response) {
+      var body = []
+      response.on('data', function (chunk) {
+        body.push(chunk)
+      })
+      response.on('end', function () {
         resolve(JSON.parse(body.join('')))
       })
     })
-    request.on('error', function(err){
+    request.on('error', function (err) {
       reject(err)
     })
-  }) 
+  })
 }
-function asyncGetComment(comment_id){
-    return new Promise(function(resolve, reject){
-      var request = https.get('https://jsonplaceholder.typicode.com/comments/' + comment_id, function(response){
-        var body = [];
-        response.on('data', function(chunk){
-          body.push(chunk)
-        })
-        response.on('end', function(){
-          resolve(JSON.parse(body.join('')))
-        })
-      })
-      request.on('error', function(err){
-        reject(err)
-      })
-    }) 
-  }
 ```
 
 ###### Browser case
@@ -185,11 +184,11 @@ function asyncGetComment(comment_id){
 <script src="modules.js"></script>
 
 <script>
-  var promiseForeach = require('promise-foreach');
+  const promiseForeach = require('promise-foreach');
 </script>
 
 <script>
-var list = [{
+const list = [{
   firstName: 'John',
   lastName: 'Doe',
   photo_id: 1
@@ -201,25 +200,25 @@ var list = [{
 
 promiseForeach.each(list,
   [
-    function (person) {
+    person => {
       return `${person.firstName} ${person.lastName}`
     },
-    function (person) {
+    person => {
       return asyncGetPhoto(person.photo_id)
     }
   ],
-  function (arrResult, person) {
+  (arrResult, person) => {
     return {
       firstName: person.firstName,
       lastName: person.lastName,
       fullName: arrResult[0],
-      photos: arrResult[1]
+      photo: arrResult[1]
     }
   },
-  function (err, newList) {
+  (err, newList) => {
     if (err) {
       console.error(err)
-      return;
+      return ;
     }
     console.log('newList : ', newList)
   })

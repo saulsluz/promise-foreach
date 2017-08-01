@@ -1,34 +1,29 @@
 
-exports.each = function (arr, iterable, onStepDone, onDone) {
-  var arr = arr || []
-  var iterable = iterable || []
-  var onStepDone = onStepDone || function () { }
-  var onDone = onDone || function () { }
-
+exports.each = function (arr = [], iterable = [], onStepDone = ()=>{}, onDone = ()=>{}) {
   if (typeof iterable == 'function') {
     iterable = [iterable]
   }
 
-  var jobs = []
+  let jobs = []
 
-  arr.forEach(function (currentValue) {
+  arr.forEach( currentValue => {
 
-    var tasks = iterable.map(function (currentFunction) {
-      var cf = currentFunction(currentValue)
+    const tasks = iterable.map( currentFunction => {
+      let cf = currentFunction(currentValue)
       if (!cf instanceof Promise) cf = Promise.resolve(cf)
       return cf
     })
 
-    var promiseAll = Promise.all(tasks).then(function (values) {
+    const promiseAll = Promise.all(tasks).then( values => {
       return onStepDone(values, currentValue)
     })
 
     jobs.push(promiseAll)
   })
 
-  Promise.all(jobs).catch(function (err) {
+  Promise.all(jobs).catch( err => {
     onDone(err, null)
-  }).then(function (values) {
+  }).then( values => {
     onDone(null, values)
   })
 }

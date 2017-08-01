@@ -1,14 +1,14 @@
-var https = require('https');
+var https = require('https')
 var promiseForeach = require('../')
-var assert = require('assert');
+var assert = require('assert')
 
 describe('#each()', function () {
 
   describe('Simple', function () {
 
-    var result;
+    let result
 
-    var list = [{
+    const list = [{
       firstName: 'John',
       lastName: 'Doe'
     }, {
@@ -18,25 +18,25 @@ describe('#each()', function () {
 
     before(function (done) {
       promiseForeach.each(list,
-        function (person) {
+        person => {
           return `${person.firstName} ${person.lastName}`
         },
-        function (arrResult, person) {
+        (arrResult, person) => {
           return {
             firstName: person.firstName,
             lastName: person.lastName,
             fullName: arrResult[0]
           }
         },
-        function (err, newList) {
+        (err, newList) => {
           if (err) {
             done(err)
-            return;
+            return ;
           }
           result = newList
           done()
         })
-    });
+    })
 
     it('should return a list with fullName property', function () {
 
@@ -51,15 +51,15 @@ describe('#each()', function () {
       }]
 
       assert.deepEqual(result, expectedResult)
-    });
+    })
 
-  });
+  })
 
   describe('Complex', function () {
 
-    var result;
+    let result
 
-    var list = [{
+    const list = [{
       firstName: 'John',
       lastName: 'Doe',
       photo_id: 1
@@ -72,14 +72,14 @@ describe('#each()', function () {
     before(function (done) {
       promiseForeach.each(list,
         [
-          function (person) {
+          person => {
             return `${person.firstName} ${person.lastName}`
           },
-          function (person) {
+          person => {
             return asyncGetPhoto(person.photo_id)
           }
         ],
-        function (arrResult, person) {
+        (arrResult, person) => {
           return {
             firstName: person.firstName,
             lastName: person.lastName,
@@ -87,10 +87,10 @@ describe('#each()', function () {
             photo: arrResult[1]
           }
         },
-        function (err, newList) {
+        (err, newList) => {
           if (err) {
             done(err)
-            return;
+            return ;
           }
           result = newList
           done()
@@ -99,7 +99,7 @@ describe('#each()', function () {
       function asyncGetPhoto(photo_id) {
         return new Promise(function (resolve, reject) {
           var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function (response) {
-            var body = [];
+            var body = []
             response.on('data', function (chunk) {
               body.push(chunk)
             })
@@ -112,7 +112,7 @@ describe('#each()', function () {
           })
         })
       }
-    });
+    })
 
     it('should return a list with photo property populated', function () {
 
@@ -144,15 +144,15 @@ describe('#each()', function () {
       }]
 
       assert.deepEqual(result, expectedResult)
-    });
+    })
 
-  });
+  })
 
   describe('Concurrency', function () {
 
-    var result;
+    let result
 
-    var list = [{
+    const list = [{
       firstName: 'John',
       lastName: 'Doe',
       photo_id: 1,
@@ -167,17 +167,17 @@ describe('#each()', function () {
     before(function (done) {
       promiseForeach.each(list,
         [
-          function (person) {
+          person => {
             return `${person.firstName} ${person.lastName}`
           },
-          function (person) {
+          person => {
             return asyncGetPhoto(person.photo_id)
           },
-          function (person) {
+          person => {
             return asyncGetComment(person.comment_id)
           }
         ],
-        function (arrResult, person) {
+        (arrResult, person) => {
           return {
             firstName: person.firstName,
             lastName: person.lastName,
@@ -186,10 +186,10 @@ describe('#each()', function () {
             comment: arrResult[2]
           }
         },
-        function (err, newList) {
+        (err, newList) => {
           if (err) {
             done(err)
-            return;
+            return ;
           }
           result = newList
           done()
@@ -198,7 +198,7 @@ describe('#each()', function () {
       function asyncGetPhoto(photo_id) {
         return new Promise(function (resolve, reject) {
           var request = https.get('https://jsonplaceholder.typicode.com/photos/' + photo_id, function (response) {
-            var body = [];
+            var body = []
             response.on('data', function (chunk) {
               body.push(chunk)
             })
@@ -216,7 +216,7 @@ describe('#each()', function () {
       function asyncGetComment(comment_id) {
         return new Promise(function (resolve, reject) {
           var request = https.get('https://jsonplaceholder.typicode.com/comments/' + comment_id, function (response) {
-            var body = [];
+            var body = []
             response.on('data', function (chunk) {
               body.push(chunk)
             })
@@ -229,7 +229,7 @@ describe('#each()', function () {
           })
         })
       }
-    });
+    })
 
     it('should return a list with photo and comment property populated', function () {
 
@@ -277,7 +277,7 @@ describe('#each()', function () {
       }]
 
       assert.deepEqual(result, expectedResult)
-    });
+    })
 
-  });
-});
+  })
+})
