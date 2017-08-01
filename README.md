@@ -9,6 +9,8 @@ Works great in the browser with [browserify](http://github.com/substack/node-bro
 ### Usage
 ###### Simple case
 ```javascript
+const promiseForeach = require('promise-foreach')
+
 const list = [{
   firstName: 'John',
   lastName: 'Doe'
