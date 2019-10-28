@@ -1,5 +1,5 @@
 # promise-foreach
-This is a simple implementation of foreach based on promises.
+Simple implementation of foreach based on promises for parallel requests.
 
 Works great in the browser with [browserify](http://github.com/substack/node-browserify).
 
@@ -97,7 +97,7 @@ function asyncGetPhoto(photo_id) {
 }
 ```
 
-###### Concurrency case
+###### Parallel case
 ```javascript
 const https = require('https');
 const promiseForeach = require('promise-foreach')
