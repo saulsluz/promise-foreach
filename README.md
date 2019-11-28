@@ -1,5 +1,5 @@
 # promise-foreach
-Simple implementation of foreach based on promises for parallel requests.
+Very simple and useful implementation of foreach based on promises for parallel requests. For NodeJS.
 
 Works great in the browser with [browserify](http://github.com/substack/node-browserify).
 
